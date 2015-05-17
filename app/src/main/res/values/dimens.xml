@@ -8,7 +8,7 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
     <dimen name="home_page_chart_height">250dp</dimen>
     <dimen name="cardview_marginLeftRight">8dp</dimen>
-    <dimen name="cardview_marginTopBottom">4dp</dimen>
+    <dimen name="cardview_marginTopBottom">2dp</dimen>
     <dimen name="cardview_padding">12dp</dimen>
     <dimen name="list_item_header">18sp</dimen>
     <dimen name="list_padding_between_text">4dp</dimen>

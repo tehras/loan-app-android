@@ -3,5 +3,11 @@
     <color name="primary">#607D8B</color>
     <color name="primary_light">#78909C</color>
 
+    <!--LineChart Colors -->
+    <color name="line_color">#00897B</color>
+    <color name="line_fill_color">#6626A69A</color>
+    <color name="line_dot_color">#80CBC4</color>
+    <color name="line_dot_stroke_color">#004D40</color>
+
     <color name="text_color_black">#000000</color>
 </resources>

@@ -2,10 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_marginBottom="@dimen/cardview_marginTopBottom"
               android:layout_marginLeft="@dimen/cardview_marginLeftRight"
               android:layout_marginRight="@dimen/cardview_marginLeftRight"
-              android:layout_marginTop="@dimen/cardview_marginTopBottom"
               android:orientation="vertical">
 
     <!-- A CardView that contains a TextView -->
@@ -15,11 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        card_view:cardCornerRadius="4dp"
+        card_view:cardCornerRadius="@dimen/cardview_default_radius"
         card_view:cardElevation="@dimen/cardview_default_elevation"
         card_view:cardUseCompatPadding="true">
 
         <RelativeLayout
+            android:id="@+id/list_item_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/cardview_padding">
@@ -56,16 +55,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/list_item_body_text_size"
-                        android:text="@string/loan_item_current_amt_label_text"/>
+                        android:text="@string/loan_item_current_amt_label_text"
+                        android:textSize="@dimen/list_item_body_text_size"/>
 
                     <TextView
                         android:id="@+id/loan_item_current_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/list_item_body_text_size"
                         android:paddingLeft="@dimen/list_padding_between_text"
                         android:text="$5,000"
+                        android:textSize="@dimen/list_item_body_text_size"
                         android:textStyle="bold"/>
 
                 </LinearLayout>
@@ -79,16 +78,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/list_item_body_text_size"
-                        android:text="@string/loan_item_initial_amt_label_text"/>
+                        android:text="@string/loan_item_initial_amt_label_text"
+                        android:textSize="@dimen/list_item_body_text_size"/>
 
                     <TextView
                         android:id="@+id/loan_item_initial_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/list_item_body_text_size"
                         android:paddingLeft="@dimen/list_padding_between_text"
                         android:text="$5,000"
+                        android:textSize="@dimen/list_item_body_text_size"
                         android:textStyle="bold"/>
 
                 </LinearLayout>
@@ -104,16 +103,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/list_item_body_text_size"
-                    android:text="Interest at"/>
+                    android:text="Interest at"
+                    android:textSize="@dimen/list_item_body_text_size"/>
 
                 <TextView
                     android:id="@+id/loan_item_interest_rate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/list_item_body_text_size"
                     android:paddingLeft="@dimen/list_padding_between_text"
                     android:text="6.9%"
+                    android:textSize="@dimen/list_item_body_text_size"
                     android:textStyle="bold"/>
 
             </LinearLayout>

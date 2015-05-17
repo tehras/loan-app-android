@@ -39,7 +39,7 @@ public class LoanListRecyclerAdapter extends RecyclerView.Adapter<LoanListRecycl
         holder.mInitialAmount.setText(Utils.getAmount(loan.getInitialAmount()));
         holder.mCurrentAmount.setText(Utils.getAmount(loan.getCurrentAmount()));
         holder.mInterestRate.setText(Utils.getPercentage(loan.getInterestRate()));
-
+        holder.mLoanName.setText(loan.getName());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class LoanListRecyclerAdapter extends RecyclerView.Adapter<LoanListRecycl
 
     public class LoanViewHolder extends RecyclerView.ViewHolder {
 
-        TextView mInitialAmount, mCurrentAmount, mInterestRate;
+        TextView mInitialAmount, mCurrentAmount, mInterestRate, mLoanName;
 
         public LoanViewHolder(View itemView) {
             super(itemView);
@@ -57,6 +57,7 @@ public class LoanListRecyclerAdapter extends RecyclerView.Adapter<LoanListRecycl
             mInitialAmount = (TextView) itemView.findViewById(R.id.loan_item_initial_amount);
             mCurrentAmount = (TextView) itemView.findViewById(R.id.loan_item_current_amount);
             mInterestRate = (TextView) itemView.findViewById(R.id.loan_item_interest_rate);
+            mLoanName = (TextView) itemView.findViewById(R.id.loan_item_name);
         }
     }
 }
