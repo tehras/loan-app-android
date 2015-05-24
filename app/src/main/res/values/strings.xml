@@ -3,6 +3,9 @@
 
     <string name="home">Home</string>
 
+    <string name="login_screen_login_button">Login</string>
+    <string name="login_screen_register_button">Register</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -11,4 +14,11 @@
     <string name="action_settings">Settings</string>
     <string name="loan_item_initial_amt_label_text">Initial Amt</string>
     <string name="loan_item_current_amt_label_text">Current Amt</string>
+    <string name="login_screen_welcome_text">Welcome to our Loan Application, please Login or Register Below</string>
+    <string name="username_hint_text">Username</string>
+    <string name="password_hint_text">Password</string>
+    <string name="loan_name_hint">Loan Name</string>
+    <string name="loan_current_amount">Current Amount</string>
+    <string name="loan_initial_amount">Initial Amount</string>
+    <string name="loan_create_button">Create</string>
 </resources>

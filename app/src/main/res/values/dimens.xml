@@ -12,5 +12,18 @@
     <dimen name="cardview_padding">12dp</dimen>
     <dimen name="list_item_header">18sp</dimen>
     <dimen name="list_padding_between_text">4dp</dimen>
+
+    <dimen name="chart_margins">16dp</dimen>
+
+    <dimen name="field_login_text_size">15sp</dimen>
     <dimen name="list_item_body_text_size">14sp</dimen>
+    <dimen name="welcome_message_text_size">15sp</dimen>
+
+    <dimen name="login_screen_margin_right_left">128dp</dimen>
+    <dimen name="login_login_screen_margin_right_left">64dp</dimen>
+    <dimen name="login_screen_margin_bottom">64dp</dimen>
+    <dimen name="login_button_margin_top">32dp</dimen>
+    <dimen name="field_marginTop">16dp</dimen>
+    <dimen name="field_height">150dp</dimen>
+    <dimen name="dialog_header_text_size">24sp</dimen>
 </resources>

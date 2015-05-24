@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#607D8B</color>
-    <color name="primary_light">#78909C</color>
+    <color name="primary_light">#26A69A</color>
+
+    <color name="edit_text_underline_filter">#FFFFFF</color>
+    <color name="edit_text_hint_color">#CCFFFFFF</color>
+    <color name="card_background">#E0F2F1</color>
 
     <!--LineChart Colors -->
-    <color name="line_color">#00897B</color>
-    <color name="line_fill_color">#6626A69A</color>
-    <color name="line_dot_color">#80CBC4</color>
-    <color name="line_dot_stroke_color">#004D40</color>
+    <color name="line_color">#E0F2F1</color>
+    <color name="line_fill_color">#E0F2F1</color>
+    <color name="line_dot_color">#E0F2F1</color>
+    <color name="line_dot_stroke_color">#00796B</color>
 
     <color name="text_color_black">#000000</color>
 </resources>

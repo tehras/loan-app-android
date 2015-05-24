@@ -46,7 +46,6 @@ public class LineEntryListener implements OnEntryClickListener {
     TextView mLineTooltip;
 
     private void showLineTooltip(int setIndex, int entryIndex, Rect rect) {
-
         mLineTooltip = (TextView) mContext.getLayoutInflater().inflate(R.layout.view_circular_tooltip, null);
         mLineTooltip.setText("$" + new DecimalFormat("#,###,###").format((int) mLineSet.getEntries().get(entryIndex).getValue()));
 

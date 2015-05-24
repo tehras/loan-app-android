@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.github.koshkin.loanapplication.fragments.LoanHomeFragment;
+import com.github.koshkin.loanapplication.fragments.login.LoginHomeScreenFragment;
 
 
 public class LoanActivity extends ActionBarActivity
@@ -33,6 +33,8 @@ public class LoanActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+        hideActionBar();
+
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -44,7 +46,7 @@ public class LoanActivity extends ActionBarActivity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, LoanHomeFragment.newInstance())
+                .replace(R.id.container, LoginHomeScreenFragment.newInstance())
                 .commit();
     }
 
@@ -63,6 +65,10 @@ public class LoanActivity extends ActionBarActivity
         actionBar.setTitle(mTitle);
     }
 
+    public void hideActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

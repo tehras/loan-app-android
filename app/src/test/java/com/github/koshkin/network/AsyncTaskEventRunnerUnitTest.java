@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.github.koshkin.loanapplication.BuildConfig;
 import com.github.koshkin.loanapplication.LoanActivity;
-import com.github.koshkin.loanapplication.fragments.LoanHomeFragment;
+import com.github.koshkin.loanapplication.fragments.home.LoanHomeFragment;
 import com.github.koshkin.loanapplication.models.LoanCacheObject;
 import com.github.koshkin.loanapplication.network.AsyncTaskCallbackInterceptor;
 import com.github.koshkin.loanapplication.network.AsyncTaskEventRunner;

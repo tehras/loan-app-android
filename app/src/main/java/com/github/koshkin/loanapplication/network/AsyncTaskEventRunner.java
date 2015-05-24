@@ -15,12 +15,20 @@ public class AsyncTaskEventRunner {
         mReqId = reqId;
     }
 
+    public void executeTask(String... params) {
+        Request request = new Request();
+        request.setReqId(mReqId);
+
+        NetworkAsyncTask networkAsyncTask = new NetworkAsyncTask(mAsyncTaskCallbackInterceptor, mAsyncTaskParser, request);
+        networkAsyncTask.execute(params);
+    }
+
     public void executeTask() {
         Request request = new Request();
         request.setReqId(mReqId);
 
         NetworkAsyncTask networkAsyncTask = new NetworkAsyncTask(mAsyncTaskCallbackInterceptor, mAsyncTaskParser, request);
-        networkAsyncTask.execute("");
+        networkAsyncTask.execute();
     }
 
 

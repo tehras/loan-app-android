@@ -2,6 +2,8 @@ package com.github.koshkin.loanapplication.network;
 
 import static com.github.koshkin.loanapplication.network.URLConstants.GET_HOME_GRAPH_URL;
 import static com.github.koshkin.loanapplication.network.URLConstants.GET_LOAN_LIST_URL;
+import static com.github.koshkin.loanapplication.network.URLConstants.LOAN_SERVICE_BASE_URL;
+import static com.github.koshkin.loanapplication.network.URLConstants.POST_LOGIN_URL;
 
 /**
  * Created by tehras on 5/16/15.
@@ -16,7 +18,7 @@ public class Request {
     }
 
     public enum ReqId {
-        GET_LOAN_LIST(GET_LOAN_LIST_URL, RequestMethod.GET), GET_HOME_GRAPH(GET_HOME_GRAPH_URL, RequestMethod.GET);
+        POST_LOGIN(LOAN_SERVICE_BASE_URL + POST_LOGIN_URL, RequestMethod.POST), GET_LOAN_LIST(LOAN_SERVICE_BASE_URL + GET_LOAN_LIST_URL, RequestMethod.GET), GET_HOME_GRAPH(GET_HOME_GRAPH_URL, RequestMethod.GET);
 
         private String mUrl;
         private RequestMethod mRequestMethod;

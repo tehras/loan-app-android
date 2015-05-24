@@ -1,14 +1,14 @@
-package com.github.koshkin.loanapplication.fragments;
+package com.github.koshkin.loanapplication.fragments.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
 import com.db.chart.Tools;
@@ -32,6 +32,9 @@ import com.github.koshkin.loanapplication.touch_listeners.LineEntryListener;
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.melnykov.fab.FloatingActionButton;
+
+import org.json.JSONException;
 
 import java.text.DecimalFormat;
 
@@ -41,10 +44,11 @@ import java.text.DecimalFormat;
 public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackInterceptor, ObservableScrollViewCallbacks, SwipeRefreshLayout.OnRefreshListener {
 
     private ObservableRecyclerView mRecyclerView;
-    private CardView mLineChartViewHolder;
+    private FrameLayout mLineChartViewHolder;
     private LoanCacheObject mLoanCacheObject;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private ScrollView mScrollView;
+    private FloatingActionButton mAddNewLoan;
+    private View.OnClickListener mAddNewLoanButtonListener;
 
     public static LoanHomeFragment newInstance() {
         return new LoanHomeFragment();
@@ -66,21 +70,22 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_loan_main_page, container, false);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
-
         mRecyclerView = (ObservableRecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setScrollViewCallbacks(this);
 
         setUpRecyclerView(mRecyclerView);
 
         mLineChartView = (LineChartView) rootView.findViewById(R.id.home_page_chart_view);
-        mLineChartViewHolder = (CardView) rootView.findViewById(R.id.card_view);
+        mLineChartViewHolder = (FrameLayout) rootView.findViewById(R.id.card_view);
 
         //TODO remove this later
         updateGraphView(null);
 
         if (mLoanCacheObject != null)
             updateLoanListView(mLoanCacheObject);
+
+        mAddNewLoan = (FloatingActionButton) rootView.findViewById(R.id.add_new_loan_button);
+        mAddNewLoan.setOnClickListener(getAddNewLoanButtonListener());
 
         return rootView;
     }
@@ -101,16 +106,24 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
 
     private LineChartView mLineChartView;
 
+    public static String GET_LOAN_LIST_RESPONSE = "{\"status\":true,\"httpCode\":200,\"responseId\":null,\"resourceUri\":null,\"user\":{\"name\":\"Taras Cockskin\"},\"requestData\":null,\"responseData\":{\"loans\":[{\"name\":\"Sex Chane Loan\",\"currentAmount\":5000,\"initialAmount\":10000,\"term\":{\"length\":69,\"type\":\"MONTHS\"},\"interestRate\":6.9,\"startDate\":-61519748106204}]}}";
+
     @Override
     public void onCallbackReceived(Response response, Request request) {
-        if (mSwipeRefreshLayout != null)
-            mSwipeRefreshLayout.setRefreshing(true);
-        if (response.getResponseCode() == Response.ResponseCode.SUCCESS)
+        if (response.getResponseCode() == Response.ResponseCode.SUCCESS) {
             if (request.getReqId() == Request.ReqId.GET_LOAN_LIST)
                 if (response.getResponseObject() instanceof LoanCacheObject)
                     updateLoanListView((LoanCacheObject) response.getResponseObject());
+        } else {
+            LoanCacheObject loanCacheObject = LoanCacheObject.getInstance();
+            try {
+                loanCacheObject.parseResponse(GET_LOAN_LIST_RESPONSE);
+                updateLoanListView(loanCacheObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         //TODO error scenarios
-
     }
 
     public void updateGraphView(LoanCacheObject responseObject) {
@@ -134,7 +147,6 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
                 .setDotsRadius(Tools.fromDpToPx(5))
                 .setDotsStrokeThickness(Tools.fromDpToPx(2))
                 .setDotsStrokeColor(getActivity().getResources().getColor(R.color.line_dot_stroke_color))
-                .setFill(getActivity().getResources().getColor(R.color.line_fill_color))
                 .setLineColor(getActivity().getResources().getColor(R.color.line_color))
                 .beginAt(0).endAt(lineSet.size())
                 .setLineThickness(Tools.fromDpToPx(3))
@@ -149,11 +161,12 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
                 .setYAxis(false)
                 .setYLabels(YController.LabelPosition.INSIDE)
                 .setAxisBorderValues(2000, 8000, 1500)
+                .setLabelColor(getActivity().getResources().getColor(android.R.color.white))
                 .setLabelsFormat(new DecimalFormat("#,###,###"))
                 .show(getAnimation());
 
+        mLineChartView.setBackground(getActivity().getResources().getDrawable(R.color.primary_light));
         mLineChartView.setOnEntryClickListener(new LineEntryListener(getActivity(), mLineChartView, lineSet));
-
         mLineChartView.animateSet(0, new DashAnimation());
     }
 
@@ -175,8 +188,11 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
         int correctedScrollY = scrollY + heightOffsetByChart;
         if (scrollY + heightOffsetByChart > heightOffsetByChart)
             correctedScrollY = heightOffsetByChart;
-        else if (scrollY + heightOffsetByChart < 0)
+        else if (scrollY + heightOffsetByChart < 0) {
             correctedScrollY = 0;
+            if (scrollY + heightOffsetByChart < -50)
+                onRefresh();
+        }
 
         float alpha = 1 - ((float) correctedScrollY / (float) heightOffsetByChart);
 
@@ -201,5 +217,14 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
 
     public void getLoansDataTask() {
         new AsyncTaskEventRunner(LoanHomeFragment.this, LoanCacheObject.getInstance(), Request.ReqId.GET_LOAN_LIST).executeTask();
+    }
+
+    public View.OnClickListener getAddNewLoanButtonListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO startAddNewLoanFragment
+            }
+        };
     }
 }

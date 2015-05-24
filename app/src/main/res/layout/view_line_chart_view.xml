@@ -6,6 +6,7 @@
     xmlns:chart="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login_background"
     chart:chart_axisBorderSpacing="8dp"
     chart:chart_axisTopSpacing="8dp"
     chart:chart_shadowDx="4dp"/>

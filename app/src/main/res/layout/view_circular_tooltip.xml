@@ -4,6 +4,6 @@
           android:layout_height="wrap_content"
           android:background="@drawable/circle"
           android:gravity="center"
-          android:textColor="@color/line_color"
+          android:textColor="@color/line_dot_stroke_color"
           android:textSize="10sp">
 </TextView>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/login_background">
+
+    <LinearLayout
+        android:id="@+id/login_fields_containers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/login_login_screen_margin_right_left"
+        android:layout_marginRight="@dimen/login_login_screen_margin_right_left"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.github.koshkin.loanapplication.view.LoanEditText
+            android:id="@+id/loan_create_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="@string/loan_name_hint"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="@dimen/field_login_text_size"/>
+
+        <com.github.koshkin.loanapplication.view.LoanEditText
+            android:id="@+id/loan_current_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="@string/loan_current_amount"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="@dimen/field_login_text_size"/>
+
+
+        <com.github.koshkin.loanapplication.view.LoanEditText
+            android:id="@+id/loan_initial_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="@string/loan_initial_amount"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="@dimen/field_login_text_size"/>
+
+    </LinearLayout>
+
+    <com.gc.materialdesign.views.ButtonFlat
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_fields_containers"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/login_button_margin_top"
+        android:background="@android:color/white"
+        android:text="@string/loan_create_button"/>
+
+</RelativeLayout>
