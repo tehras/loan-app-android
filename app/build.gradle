@@ -60,11 +60,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.android.support:recyclerview-v7:21.0.0'
     compile 'com.android.support:cardview-v7:21.0.0'
-    compile 'com.github.ksoichiro:android-observablescrollview:+'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.+'
     compile 'com.diogobernardino:williamchart:1.7.0'
     compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
-    compile 'com.melnykov:floatingactionbutton:1.3.0'
-    compile('com.github.arduima:loan-app-model:862af15a8c') {
+    compile 'com.getbase:floatingactionbutton:1.9.1'
+
+    compile('com.github.arduima:loan-app-model:f5fbcf7f2b') {
         exclude group: 'jackson-annotations-2.5.3.jar' exclude group: 'jackson-core-2.5.3'
     }
 

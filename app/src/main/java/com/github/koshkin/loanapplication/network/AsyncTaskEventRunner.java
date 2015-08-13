@@ -18,9 +18,26 @@ public class AsyncTaskEventRunner {
     public void executeTask(String... params) {
         Request request = new Request();
         request.setReqId(mReqId);
+        for (String param : params) request.addParam(param);
 
         NetworkAsyncTask networkAsyncTask = new NetworkAsyncTask(mAsyncTaskCallbackInterceptor, mAsyncTaskParser, request);
         networkAsyncTask.execute(params);
+    }
+
+    public void executeTask(String requestObject) {
+        Request request = new Request();
+        request.setReqId(mReqId);
+        request.setRequestObject(requestObject);
+
+        NetworkAsyncTask networkAsyncTask = new NetworkAsyncTask(mAsyncTaskCallbackInterceptor, mAsyncTaskParser, request);
+        networkAsyncTask.execute();
+    }
+
+    public void executeTask(Request request) {
+        request.setReqId(mReqId);
+
+        NetworkAsyncTask networkAsyncTask = new NetworkAsyncTask(mAsyncTaskCallbackInterceptor, mAsyncTaskParser, request);
+        networkAsyncTask.execute();
     }
 
     public void executeTask() {

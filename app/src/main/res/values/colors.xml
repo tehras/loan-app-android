@@ -14,4 +14,7 @@
     <color name="line_dot_stroke_color">#00796B</color>
 
     <color name="text_color_black">#000000</color>
+
+    <!-- FAB buttons -->
+    <color name="primary_button">#673AB7</color>
 </resources>

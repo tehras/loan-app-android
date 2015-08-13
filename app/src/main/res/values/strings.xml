@@ -21,4 +21,18 @@
     <string name="loan_current_amount">Current Amount</string>
     <string name="loan_initial_amount">Initial Amount</string>
     <string name="loan_create_button">Create</string>
+    <string name="loan_payment_terms">Total Terms Length</string>
+    <string name="loan_payment_terms_type_header">Terms Type</string>
+    <string name="loan_payment_general_information_header">General Information</string>
+    <string name="loan_payment_general_information_term_conditions">Term Conditions</string>
+    <string name="loan_payment_amount">Payment per Term Length</string>
+    <string name="loan_interest_rate">Interest Rate</string>
+    <string name="loan_payment_start_date">Payment Start Date (MM/DD/YYYY)</string>
+    <string name="loan_create_header">Create New Loan</string>
+    <string-array name="loan_payment_terms_type_array">
+        <item>Days</item>
+        <item>Weeks</item>
+        <item>Months</item>
+        <item>Years</item>
+    </string-array>
 </resources>

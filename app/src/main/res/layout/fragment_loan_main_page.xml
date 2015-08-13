@@ -1,7 +1,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background">
@@ -39,16 +39,16 @@
         android:layout_height="wrap_content"
         />
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/add_new_loan_button"
+    <com.gc.materialdesign.views.ButtonFloat
+        android:id="@+id/add_loan_floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_icon"
-        fab:fab_colorNormal="@color/primary"
-        fab:fab_colorPressed="@color/primary_light"
-        fab:fab_colorRipple="@color/primary_light"/>
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/primary_button"
+        materialdesign:iconDrawable="@drawable/ic_content_add"/>
+
 
 </RelativeLayout>

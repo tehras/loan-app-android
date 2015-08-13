@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 
 import com.github.koshkin.loanapplication.fragments.home.LoanHomeFragment;
+import com.github.koshkin.loanapplication.fragments.loan.LoanCreateNewFragment;
 import com.github.koshkin.loanapplication.fragments.login.LoginScreenFragment;
 
 /**
@@ -30,10 +31,14 @@ public class BaseFragment extends Fragment {
         addFragment(LoanHomeFragment.newInstance());
     }
 
+    protected void startLoanCreateFragment() {
+        addFragment(LoanCreateNewFragment.newInstance());
+    }
+
     protected void addFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.abc_popup_enter, R.anim.abc_popup_exit)
+                .setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom, R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_top)
                 .add(R.id.container, fragment)
                 .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
