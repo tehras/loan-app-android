@@ -19,6 +19,7 @@ import com.db.chart.view.YController;
 import com.db.chart.view.animation.Animation;
 import com.db.chart.view.animation.easing.linear.LinearEase;
 import com.db.chart.view.animation.style.DashAnimation;
+import com.gc.materialdesign.views.ButtonFloat;
 import com.github.koshkin.loanapplication.BaseFragment;
 import com.github.koshkin.loanapplication.R;
 import com.github.koshkin.loanapplication.adapters.LoanListRecyclerAdapter;
@@ -29,10 +30,10 @@ import com.github.koshkin.loanapplication.network.AsyncTaskEventRunner;
 import com.github.koshkin.loanapplication.network.Request;
 import com.github.koshkin.loanapplication.network.Response;
 import com.github.koshkin.loanapplication.touch_listeners.LineEntryListener;
+import com.github.koshkin.loanapplication.utils.Utils;
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
-import com.melnykov.fab.FloatingActionButton;
 
 import org.json.JSONException;
 
@@ -47,28 +48,24 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
     private FrameLayout mLineChartViewHolder;
     private LoanCacheObject mLoanCacheObject;
     private ScrollView mScrollView;
-    private FloatingActionButton mAddNewLoan;
     private View.OnClickListener mAddNewLoanButtonListener;
+    private ButtonFloat mAddNewLoan;
 
     public static LoanHomeFragment newInstance() {
         return new LoanHomeFragment();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //TODO make a network call for data
-        if (LoanCacheObject.getInstance().getLoans() == null || LoanCacheObject.getInstance().getLoans().isEmpty())
-            getLoansDataTask();
-        else
-            mLoanCacheObject = LoanCacheObject.getInstance();
-
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_loan_main_page, container, false);
+
+        Utils.closeKeyboard(getActivity());
+
+        if (LoanCacheObject.getInstance().getLoans() == null || LoanCacheObject.getInstance().getLoans().isEmpty() || !LoanCacheObject.getInstance().isReceivedData())
+            getLoansDataTask();
+        else
+            mLoanCacheObject = LoanCacheObject.getInstance();
 
         mRecyclerView = (ObservableRecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setScrollViewCallbacks(this);
@@ -84,7 +81,7 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
         if (mLoanCacheObject != null)
             updateLoanListView(mLoanCacheObject);
 
-        mAddNewLoan = (FloatingActionButton) rootView.findViewById(R.id.add_new_loan_button);
+        mAddNewLoan = (ButtonFloat) rootView.findViewById(R.id.add_loan_floating_action_button);
         mAddNewLoan.setOnClickListener(getAddNewLoanButtonListener());
 
         return rootView;
@@ -118,12 +115,12 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
             LoanCacheObject loanCacheObject = LoanCacheObject.getInstance();
             try {
                 loanCacheObject.parseResponse(GET_LOAN_LIST_RESPONSE);
+                loanCacheObject.setReceivedData(false);
                 updateLoanListView(loanCacheObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        //TODO error scenarios
     }
 
     public void updateGraphView(LoanCacheObject responseObject) {
@@ -223,7 +220,7 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO startAddNewLoanFragment
+                startLoanCreateFragment();
             }
         };
     }

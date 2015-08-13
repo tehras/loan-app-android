@@ -6,11 +6,18 @@
         <item name="colorPrimaryDark">@color/primary_light</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:activatedBackgroundIndicator">@color/primary</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
     </style>
 
     <!-- Enable the spinbar to be spinning -->
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
+    </style>
+
+    <style name="SpinnerItemStyle">
+        <item name="android:textColor">@color/edit_text_hint_color</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">@dimen/field_login_text_size</item>
     </style>
 
 </resources>

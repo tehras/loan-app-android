@@ -3,11 +3,16 @@ package com.github.koshkin.loanapplication.network;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.github.koshkin.loanapplication.utils.NullChecker;
+
 import org.json.JSONException;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -43,7 +48,7 @@ public class NetworkAsyncTask extends AsyncTask<String, Void, String> {
             if (mRequest.getRequestMethod() == Request.RequestMethod.GET)
                 sendGet();
             else
-                sendPost(params);
+                sendPost();
         } catch (IOException e) {
             mResponse.setResponseCode(500);
             mFragmentCallbackInterceptor.onCallbackReceived(mResponse, mRequest);
@@ -51,11 +56,30 @@ public class NetworkAsyncTask extends AsyncTask<String, Void, String> {
         return null;
     }
 
-    private void sendPost(String... params) throws IOException {
-        String url = String.format(mRequest.getUrl(), params);
+    private void sendPost() throws IOException {
+        String url = String.format(mRequest.getUrl(), mRequest.getParams());
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod(mRequest.getRequestMethod().getMethod());
         connection.setRequestProperty("Authorization", "Y2xpZW50YXBwOjEyMzQ1Ng==");
+
+        if (mRequest.getHeaders() != null) {
+            for (String key : mRequest.getHeaders().keySet()) {
+                connection.setRequestProperty(key, mRequest.getHeaders().get(key));
+            }
+        }
+
+        if (!NullChecker.isNullOrEmpty(mRequest.getRequestObject())) {
+            Log.v(getClass().getSimpleName(), "requestObject - " + mRequest.getRequestObject());
+
+            OutputStream os = connection.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(os, "UTF-8"));
+            writer.write(mRequest.getRequestObject());
+
+            writer.flush();
+            writer.close();
+            os.close();
+        }
 
         parseResponse(connection);
     }
@@ -73,6 +97,8 @@ public class NetworkAsyncTask extends AsyncTask<String, Void, String> {
 
     private void parseResponse(HttpURLConnection connection) throws IOException {
         int responseCode = connection.getResponseCode();
+
+        Log.v(getClass().getSimpleName(), "ResponseCode - " + responseCode);
 
         if (responseCode == 200) {
             BufferedReader in = new BufferedReader(

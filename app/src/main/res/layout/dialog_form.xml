@@ -28,7 +28,7 @@
         android:layout_below="@id/title_container"
         android:layout_margin="@dimen/activity_horizontal_margin">
 
-        <View
+        <LinearLayout
             android:id="@+id/dialog_form_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
