@@ -1,5 +1,6 @@
 package com.github.koshkin.loanapplication.fragments.login;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.gc.materialdesign.views.ButtonFlat;
 import com.github.koshkin.loanapplication.BaseFragment;
+import com.github.koshkin.loanapplication.LoanActivity;
 import com.github.koshkin.loanapplication.R;
 import com.github.koshkin.loanapplication.models.LoginAuthentication;
 import com.github.koshkin.loanapplication.network.AsyncTaskCallbackInterceptor;
@@ -78,5 +80,14 @@ public class LoginScreenFragment extends BaseFragment implements AsyncTaskCallba
     public void onCallbackReceived(Response response, Request request) {
         //TODO correct Logic
         startLoanHomeFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Activity activity = getActivity();
+        if(activity instanceof LoanActivity)
+            ((LoanActivity) activity).disableDrawer();
     }
 }

@@ -2,6 +2,9 @@ package com.github.koshkin.loanapplication.fragments.loan;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import com.github.koshkin.loanapplication.network.AsyncTaskCallbackInterceptor;
 import com.github.koshkin.loanapplication.network.AsyncTaskEventRunner;
 import com.github.koshkin.loanapplication.network.Request;
 import com.github.koshkin.loanapplication.network.Response;
+import com.github.koshkin.loanapplication.utils.EditTextWatcherUtils;
 import com.github.koshkin.loanapplication.view.LoanEditText;
 import com.github.koshkin.loanapplication.view.LoanSpinner;
 import com.koshkin.loanappmodel.loan.Loan;
@@ -24,8 +28,12 @@ import com.koshkin.loanappmodel.loan.TermType;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import static com.github.koshkin.loanapplication.utils.EditTextWatcherUtils.*;
 
 /**
  * Created by tehras on 7/4/15.
@@ -58,6 +66,13 @@ public class LoanCreateNewFragment extends BaseFragment implements AsyncTaskCall
 
         mCreateLoan = (ButtonRectangle) rootView.findViewById(R.id.loan_create_button);
         mCreateLoan.setOnClickListener(getCreateLoanListener());
+
+        //This part makes the text format well
+        setUpPaymentStartDate(mPaymentStartDate);
+        setUpDollarAmount(mCurrentAmount);
+        setUpDollarAmount(mInitialAmount);
+        setUpDollarAmount(mPerTermAmount);
+        setUpPercentageAmount(mInterestRate);
 
         return rootView;
     }

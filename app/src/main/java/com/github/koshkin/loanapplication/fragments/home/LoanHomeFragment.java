@@ -20,6 +20,7 @@ import com.db.chart.view.animation.Animation;
 import com.db.chart.view.animation.easing.linear.LinearEase;
 import com.db.chart.view.animation.style.DashAnimation;
 import com.gc.materialdesign.views.ButtonFloat;
+import com.github.clans.fab.FloatingActionButton;
 import com.github.koshkin.loanapplication.BaseFragment;
 import com.github.koshkin.loanapplication.R;
 import com.github.koshkin.loanapplication.adapters.LoanListRecyclerAdapter;
@@ -49,7 +50,7 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
     private LoanCacheObject mLoanCacheObject;
     private ScrollView mScrollView;
     private View.OnClickListener mAddNewLoanButtonListener;
-    private ButtonFloat mAddNewLoan;
+    private FloatingActionButton mAddNewLoan;
 
     public static LoanHomeFragment newInstance() {
         return new LoanHomeFragment();
@@ -81,7 +82,7 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
         if (mLoanCacheObject != null)
             updateLoanListView(mLoanCacheObject);
 
-        mAddNewLoan = (ButtonFloat) rootView.findViewById(R.id.add_loan_floating_action_button);
+        mAddNewLoan = (FloatingActionButton) rootView.findViewById(R.id.add_loan_floating_action_button);
         mAddNewLoan.setOnClickListener(getAddNewLoanButtonListener());
 
         return rootView;

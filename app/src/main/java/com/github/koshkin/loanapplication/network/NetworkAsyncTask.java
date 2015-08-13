@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 
 /**
  * Created by tehras on 5/16/15.
@@ -57,7 +58,7 @@ public class NetworkAsyncTask extends AsyncTask<String, Void, String> {
     }
 
     private void sendPost() throws IOException {
-        String url = String.format(mRequest.getUrl(), mRequest.getParams());
+        String url = String.format(mRequest.getUrl(), mRequest.getParams().toArray());
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod(mRequest.getRequestMethod().getMethod());
         connection.setRequestProperty("Authorization", "Y2xpZW50YXBwOjEyMzQ1Ng==");

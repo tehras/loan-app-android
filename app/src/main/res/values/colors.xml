@@ -4,7 +4,7 @@
     <color name="primary_light">#26A69A</color>
 
     <color name="edit_text_underline_filter">#FFFFFF</color>
-    <color name="edit_text_hint_color">#CCFFFFFF</color>
+    <color name="edit_text_hint_color">#80FFFFFF</color>
     <color name="card_background">#E0F2F1</color>
 
     <!--LineChart Colors -->

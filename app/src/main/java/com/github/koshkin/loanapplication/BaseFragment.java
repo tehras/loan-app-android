@@ -1,6 +1,8 @@
 package com.github.koshkin.loanapplication;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -24,7 +26,14 @@ public class BaseFragment extends Fragment {
 
     protected void startRegisterFragment() {
         //TODO startRegistrationPage
+    }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Activity activity = getActivity();
+        if(activity instanceof LoanActivity)
+            ((LoanActivity) activity).enableDrawer();
     }
 
     protected void startLoanHomeFragment() {

@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/login_button_margin_top"
         android:gravity="center"
         android:text="@string/loan_create_header"
-        android:textColor="@color/edit_text_hint_color"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/create_loan_text_header"
         android:textStyle="bold"/>
 
@@ -34,7 +34,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/loan_payment_general_information_header"
-            android:textColor="@color/edit_text_hint_color"
+            android:textColor="@android:color/white"
             android:textStyle="bold"/>
 
         <com.github.koshkin.loanapplication.view.LoanEditText
@@ -108,7 +108,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/loan_payment_general_information_term_conditions"
-            android:textColor="@color/edit_text_hint_color"
+            android:textColor="@android:color/white"
             android:textStyle="bold"/>
 
         <com.github.koshkin.loanapplication.view.LoanEditText
@@ -131,6 +131,7 @@
             android:background="@drawable/abc_spinner_textfield_background_material"
             android:entries="@array/loan_payment_terms_type_array"
             android:prompt="@string/loan_payment_terms_type_header"
+            android:textColor="@android:color/white"
             android:spinnerMode="dropdown"
             android:textAlignment="center"/>
 
@@ -155,7 +156,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/primary_button"
-        android:layout_alignParentBottom="true"
         android:layout_below="@id/login_fields_containers"
         android:layout_centerHorizontal="true"
         android:text="@string/loan_create_button"/>

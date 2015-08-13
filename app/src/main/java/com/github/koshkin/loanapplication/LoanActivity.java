@@ -39,6 +39,9 @@ public class LoanActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        if(mNavigationDrawerFragment.isDrawerOpen())
+            mNavigationDrawerFragment.closeDrawer();
     }
 
     @Override
@@ -48,6 +51,16 @@ public class LoanActivity extends ActionBarActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, LoginHomeScreenFragment.newInstance())
                 .commit();
+    }
+
+    public void disableDrawer(){
+        if(mNavigationDrawerFragment != null)
+            mNavigationDrawerFragment.disableDrawer();
+    }
+
+    public void enableDrawer(){
+        if(mNavigationDrawerFragment != null)
+            mNavigationDrawerFragment.enableDrawer();
     }
 
     public void onSectionAttached(int number) {
