@@ -275,8 +275,12 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
         mHeaderContainer.setTranslationY(-correctedScrollY);
 
         //Logic for the FAB button
-        mAddNewLoan.setTranslationY(mPreviousScrollY);
+        int difference = correctedScrollY - mPreviousScrollY;
 
+        if (Math.abs(correctedScrollY) > 100)
+            mAddNewLoan.setTranslationY(mPreviousScrollY);
+        else
+            mAddNewLoan.setTranslationY(0);
 
         mPreviousScrollY = correctedScrollY;
     }
