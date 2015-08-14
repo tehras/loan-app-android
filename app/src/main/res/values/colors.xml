@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#607D8B</color>
-    <color name="primary_light">#26A69A</color>
+<color name="primary">#607D8B</color>
+<color name="primary_light">#26A69A</color>
+<color name="tertiary">#CFD8DC</color>
 
-    <color name="edit_text_underline_filter">#FFFFFF</color>
-    <color name="edit_text_hint_color">#80FFFFFF</color>
-    <color name="card_background">#E0F2F1</color>
+<color name="edit_text_underline_filter">#FFFFFF</color>
+<color name="edit_text_hint_color">#80FFFFFF</color>
+<color name="card_background">#E0F2F1</color>
 
-    <!--LineChart Colors -->
-    <color name="line_color">#E0F2F1</color>
-    <color name="line_fill_color">#E0F2F1</color>
-    <color name="line_dot_color">#E0F2F1</color>
-    <color name="line_dot_stroke_color">#00796B</color>
+<!--LineChart Colors -->
+<color name="line_color">#E0F2F1</color>
+<color name="line_fill_color">#E0F2F1</color>
+<color name="line_dot_color">#E0F2F1</color>
+<color name="line_dot_stroke_color">#00796B</color>
+<color name="line_x_axis_label">#673AB7</color>
 
-    <color name="text_color_black">#000000</color>
+<color name="text_color_black">#000000</color>
 
-    <!-- FAB buttons -->
-    <color name="primary_button">#673AB7</color>
+<!-- FAB buttons -->
+<color name="primary_button">#673AB7</color>
 </resources>

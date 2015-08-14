@@ -19,6 +19,7 @@ import com.github.koshkin.loanapplication.network.AsyncTaskEventRunner;
 import com.github.koshkin.loanapplication.network.Request;
 import com.github.koshkin.loanapplication.network.Response;
 import com.github.koshkin.loanapplication.utils.EditTextWatcherUtils;
+import com.github.koshkin.loanapplication.utils.Utils;
 import com.github.koshkin.loanapplication.view.LoanEditText;
 import com.github.koshkin.loanapplication.view.LoanSpinner;
 import com.koshkin.loanappmodel.loan.Loan;
@@ -84,17 +85,17 @@ public class LoanCreateNewFragment extends BaseFragment implements AsyncTaskCall
             public void onClick(View v) {
                 Loan loan = new Loan();
                 loan.setName(String.valueOf(mLoanName.getText()));
-                loan.setInitialAmount(new BigDecimal(String.valueOf(mInitialAmount.getText())));
-                loan.setCurrentAmount(new BigDecimal(String.valueOf(mCurrentAmount.getText())));
+                loan.setInitialAmount(Utils.stringToDouble(String.valueOf(mInitialAmount.getText())));
+                loan.setCurrentAmount(Utils.stringToDouble(String.valueOf(mCurrentAmount.getText())));
                 try {
                     loan.setStartDate(new SimpleDateFormat("MM/dd/yyyy").parse(String.valueOf(mPaymentStartDate.getText())));
                 } catch (ParseException e) {
                     //TODO wrong error
                 }
-                loan.setInterestRate(new BigDecimal(String.valueOf(mInterestRate.getText())));
+                loan.setInterestRate(Utils.stringToDouble(String.valueOf(mInterestRate.getText())));
 
                 Term term = new Term();
-                term.setPaymentAmount(new BigDecimal(String.valueOf(mPerTermAmount.getText())));
+                term.setPaymentAmount(Utils.stringToDouble(String.valueOf(mPerTermAmount.getText())));
                 term.setLength(Integer.parseInt(String.valueOf(mTotalTermsLength.getText())));
                 term.setType(convertStringToTermType(mTermType.getSelectedItem().toString()));
 

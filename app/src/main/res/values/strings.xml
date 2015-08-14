@@ -29,6 +29,7 @@
     <string name="loan_interest_rate">Interest Rate (6.3%)</string>
     <string name="loan_payment_start_date">Payment Start Date (MM/DD/YYYY)</string>
     <string name="loan_create_header">Create New Loan</string>
+    <string name="home_text_label">Current Owned Amount -</string>
     <string-array name="loan_payment_terms_type_array">
         <item>Days</item>
         <item>Weeks</item>

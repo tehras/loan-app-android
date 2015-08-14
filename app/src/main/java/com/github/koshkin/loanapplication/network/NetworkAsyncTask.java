@@ -46,6 +46,7 @@ public class NetworkAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         try {
+            Log.e(TAG, "serviceCallStart - " + mRequest.getUrl());
             if (mRequest.getRequestMethod() == Request.RequestMethod.GET)
                 sendGet();
             else
@@ -89,6 +90,7 @@ public class NetworkAsyncTask extends AsyncTask<String, Void, String> {
         HttpURLConnection connection = (HttpURLConnection) new URL(mRequest.getUrl()).openConnection();
         connection.addRequestProperty("Authorization", "Bearer a3c67de7-1611-4593-b8c7-f276b6beb553");
         connection.setRequestMethod(mRequest.getRequestMethod().getMethod());
+        connection.setConnectTimeout(5000);
 
         parseResponse(connection);
 

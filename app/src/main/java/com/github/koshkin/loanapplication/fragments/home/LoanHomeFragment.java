@@ -1,5 +1,7 @@
 package com.github.koshkin.loanapplication.fragments.home;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,17 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.db.chart.Tools;
-import com.db.chart.model.LineSet;
-import com.db.chart.view.LineChartView;
-import com.db.chart.view.XController;
-import com.db.chart.view.YController;
-import com.db.chart.view.animation.Animation;
-import com.db.chart.view.animation.easing.linear.LinearEase;
-import com.db.chart.view.animation.style.DashAnimation;
-import com.gc.materialdesign.views.ButtonFloat;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.koshkin.loanapplication.BaseFragment;
 import com.github.koshkin.loanapplication.R;
@@ -30,15 +25,23 @@ import com.github.koshkin.loanapplication.network.AsyncTaskCallbackInterceptor;
 import com.github.koshkin.loanapplication.network.AsyncTaskEventRunner;
 import com.github.koshkin.loanapplication.network.Request;
 import com.github.koshkin.loanapplication.network.Response;
-import com.github.koshkin.loanapplication.touch_listeners.LineEntryListener;
 import com.github.koshkin.loanapplication.utils.Utils;
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.koshkin.loanappmodel.loan.Loan;
 
 import org.json.JSONException;
 
-import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * Created by tehras on 5/16/15.
@@ -51,6 +54,9 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
     private ScrollView mScrollView;
     private View.OnClickListener mAddNewLoanButtonListener;
     private FloatingActionButton mAddNewLoan;
+    private TextView mCurrentAmount, mPreviousAmount, mPreviousAmountLabel;
+    private RelativeLayout mHeaderContainer;
+
 
     public static LoanHomeFragment newInstance() {
         return new LoanHomeFragment();
@@ -73,7 +79,7 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
 
         setUpRecyclerView(mRecyclerView);
 
-        mLineChartView = (LineChartView) rootView.findViewById(R.id.home_page_chart_view);
+        mLineChartView = (LineChart) rootView.findViewById(R.id.home_page_chart_view);
         mLineChartViewHolder = (FrameLayout) rootView.findViewById(R.id.card_view);
 
         //TODO remove this later
@@ -85,6 +91,11 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
         mAddNewLoan = (FloatingActionButton) rootView.findViewById(R.id.add_loan_floating_action_button);
         mAddNewLoan.setOnClickListener(getAddNewLoanButtonListener());
 
+        mHeaderContainer = (RelativeLayout) rootView.findViewById(R.id.home_page_header_container);
+        mCurrentAmount = (TextView) rootView.findViewById(R.id.home_page_header_current_amount);
+        mPreviousAmount = (TextView) rootView.findViewById(R.id.home_page_header_previous_amount);
+        mPreviousAmountLabel = (TextView) rootView.findViewById(R.id.home_page_header_previous_label);
+
         return rootView;
     }
 
@@ -95,14 +106,48 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
     }
 
     public void updateLoanListView(LoanCacheObject responseObject) {
-        LoanListRecyclerAdapter adapter = new LoanListRecyclerAdapter(responseObject.getLoans());
+        final LoanListRecyclerAdapter adapter = new LoanListRecyclerAdapter(responseObject.getLoans());
 
-        mRecyclerView.addItemDecoration(new LoanListRecyclerAdapterItemDecoration(getHeightOffsetByChart()));
-        mRecyclerView.setAdapter(adapter);
-        mRecyclerView.invalidate();
+        mCurrentAmount.setText(getCurrentTotalAmount(responseObject));
+        mPreviousAmount.setText(getInitialTotalAmount(responseObject));
+        mPreviousAmountLabel.setText("Initial Amount -");
+
+        mRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                mRecyclerView.addItemDecoration(new LoanListRecyclerAdapterItemDecoration(getHeightOffsetByChart()));
+                mRecyclerView.setAdapter(adapter);
+                mRecyclerView.invalidate();
+            }
+        });
+
     }
 
-    private LineChartView mLineChartView;
+    private String getCurrentTotalAmount(LoanCacheObject loanCacheObject) {
+        if (loanCacheObject == null || loanCacheObject.getLoans() == null || loanCacheObject.getLoans().isEmpty())
+            return "N/A";
+
+        double totalAmount = 0d;
+        for (Loan loan : loanCacheObject.getLoans()) {
+            totalAmount = totalAmount + loan.getCurrentAmount();
+        }
+
+        return String.valueOf(totalAmount);
+    }
+
+    private String getInitialTotalAmount(LoanCacheObject loanCacheObject) {
+        if (loanCacheObject == null || loanCacheObject.getLoans() == null || loanCacheObject.getLoans().isEmpty())
+            return "N/A";
+
+        double initialAmount = 0d;
+        for (Loan loan : loanCacheObject.getLoans()) {
+            initialAmount = initialAmount + loan.getInitialAmount();
+        }
+
+        return String.valueOf(initialAmount);
+    }
+
+    private LineChart mLineChartView;
 
     public static String GET_LOAN_LIST_RESPONSE = "{\"status\":true,\"httpCode\":200,\"responseId\":null,\"resourceUri\":null,\"user\":{\"name\":\"Taras Cockskin\"},\"requestData\":null,\"responseData\":{\"loans\":[{\"name\":\"Sex Chane Loan\",\"currentAmount\":5000,\"initialAmount\":10000,\"term\":{\"length\":69,\"type\":\"MONTHS\"},\"interestRate\":6.9,\"startDate\":-61519748106204}]}}";
 
@@ -125,59 +170,90 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
     }
 
     public void updateGraphView(LoanCacheObject responseObject) {
-        mLineChartView.reset();
+        //TODO populate chart
 
-        //TODO getDataSet
-        LineSet lineSet = new LineSet();
-        lineSet.addPoint("0", 2300);
-        lineSet.addPoint("1", 4200);
-        lineSet.addPoint("2", 3100);
-        lineSet.addPoint("3", 5600);
-        lineSet.addPoint("4", 7400);
-        lineSet.addPoint("5", 5600);
-        lineSet.addPoint("6", 3200);
-        lineSet.addPoint("7", 3600);
-        lineSet.addPoint("8", 2700);
-        lineSet.addPoint("9", 2800);
+        //SetBackgroundColor
+        Paint paint = new Paint();
+        paint.setColor(Color.TRANSPARENT);
+        mLineChartView.setPaint(paint, Chart.PAINT_GRID_BACKGROUND);
+        mLineChartView.setBackgroundColor(Color.TRANSPARENT);
+        mLineChartView.setBackground(getResources().getDrawable(android.R.color.transparent));
+        mLineChartViewHolder.setBackground(getResources().getDrawable(android.R.color.transparent));
 
-        lineSet.setDots(true)
-                .setDotsColor(getActivity().getResources().getColor(R.color.line_dot_color))
-                .setDotsRadius(Tools.fromDpToPx(5))
-                .setDotsStrokeThickness(Tools.fromDpToPx(2))
-                .setDotsStrokeColor(getActivity().getResources().getColor(R.color.line_dot_stroke_color))
-                .setLineColor(getActivity().getResources().getColor(R.color.line_color))
-                .beginAt(0).endAt(lineSet.size())
-                .setLineThickness(Tools.fromDpToPx(3))
-                .setSmooth(true)
-                .setDashed(true);
 
-        mLineChartView.addData(lineSet);
+        //Touches
+        mLineChartView.setTouchEnabled(true); //Allows for touches
+        mLineChartView.setDragEnabled(false); //We don't want dragging
+        mLineChartView.setScaleEnabled(false); //We don't want scaling
+        mLineChartView.setPinchZoom(false); //We don't want pinch zoom
+        mLineChartView.setHighlightEnabled(true); //YES! This is what makes it beautiful
 
-        mLineChartView
-                .setXAxis(false)
-                .setXLabels(XController.LabelPosition.INSIDE)
-                .setYAxis(false)
-                .setYLabels(YController.LabelPosition.INSIDE)
-                .setAxisBorderValues(2000, 8000, 1500)
-                .setLabelColor(getActivity().getResources().getColor(android.R.color.white))
-                .setLabelsFormat(new DecimalFormat("#,###,###"))
-                .show(getAnimation());
+        //Legend
+        Legend legend = mLineChartView.getLegend();
+        legend.setEnabled(false);
 
-        mLineChartView.setBackground(getActivity().getResources().getDrawable(R.color.primary_light));
-        mLineChartView.setOnEntryClickListener(new LineEntryListener(getActivity(), mLineChartView, lineSet));
-        mLineChartView.animateSet(0, new DashAnimation());
+        mLineChartView.setDescription("");
+
+        //X-Axis
+        XAxis xAxis = mLineChartView.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(8f);
+        xAxis.setTextColor(getActivity().getResources().getColor(R.color.tertiary));
+        xAxis.setDrawAxisLine(false); //xAxis is ugly
+        xAxis.setDrawGridLines(false); //keep the chart clean
+        xAxis.setAvoidFirstLastClipping(true);
+
+        //Y-Axis
+        YAxis leftAxis = mLineChartView.getAxisLeft();
+        YAxis rightAxis = mLineChartView.getAxisRight();
+        leftAxis.setTextSize(8f);
+        leftAxis.setTextColor(getActivity().getResources().getColor(R.color.tertiary));
+        leftAxis.setStartAtZero(false);
+        leftAxis.setEnabled(true);
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.setDrawGridLines(false);
+        rightAxis.setEnabled(false);
+
+        //Set Data
+        mLineChartView.setData(getLineData());
+        mLineChartView.invalidate();
     }
 
-    private Animation getAnimation() {
-        return new Animation()
-                .setAlpha(1)
-                .setDuration(1000)
-                .setEasing(new LinearEase());
+    private LineData getLineData() {
+        ArrayList<Entry> entries = new ArrayList<>();
+        ArrayList<String> xVals = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            entries.add(new Entry((float) (100f + (Math.random() * 50f)), i));
+            xVals.add("XVal - " + i);
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(entries, "Loan 1");
+        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        //LineDataSet settings
+        lineDataSet.setDrawCubic(true);
+        lineDataSet.setDrawCircles(false);
+        lineDataSet.setLineWidth(3f);
+        lineDataSet.setDrawValues(false);
+        lineDataSet.setDrawHorizontalHighlightIndicator(false);
+        lineDataSet.setDrawVerticalHighlightIndicator(true);
+        lineDataSet.setHighlightLineWidth(1.2f);
+        lineDataSet.setHighLightColor(getResources().getColor(R.color.tertiary));
+
+        //setup
+        LineData lineData = new LineData(xVals, lineDataSet);
+        lineData.setHighlightEnabled(true);
+        lineData.addDataSet(lineDataSet);
+
+        return lineData;
     }
 
     private int getHeightOffsetByChart() {
-        return getActivity().getResources().getDimensionPixelSize(R.dimen.home_page_chart_height) + getActivity().getResources().getDimensionPixelSize(R.dimen.cardview_marginTopBottom) * 3;
+        int height = mHeaderContainer.getHeight();
+        return (int) (getActivity().getResources().getDimensionPixelSize(R.dimen.home_page_chart_height) * 1.1 + getActivity().getResources().getDimensionPixelSize(R.dimen.cardview_marginTopBottom) * 3 + height);
     }
+
+    private int mPreviousScrollY = 0;
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstTouch, boolean drag) {
@@ -196,6 +272,13 @@ public class LoanHomeFragment extends BaseFragment implements AsyncTaskCallbackI
 
         mLineChartViewHolder.setAlpha(alpha);
         mLineChartViewHolder.setTranslationY(-correctedScrollY);
+        mHeaderContainer.setTranslationY(-correctedScrollY);
+
+        //Logic for the FAB button
+        mAddNewLoan.setTranslationY(mPreviousScrollY);
+
+
+        mPreviousScrollY = correctedScrollY;
     }
 
     @Override

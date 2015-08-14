@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.github.koshkin.loanapplication.network.AsyncTaskParser;
 import com.github.koshkin.loanapplication.utils.NullChecker;
+import com.github.koshkin.loanapplication.utils.Utils;
 import com.koshkin.loanappmodel.loan.Loan;
 import com.koshkin.loanappmodel.loan.Term;
 import com.koshkin.loanappmodel.loan.TermType;
@@ -118,25 +119,25 @@ public class LoanCacheObject implements AsyncTaskParser<LoanCacheObject> {
                 for (int i = 0; i < loans.length(); i++) {
                     Loan loan = new Loan();
                     JSONObject loanObject = loans.getJSONObject(i);
-                    if (loanObject.has(JSON_PARSER_NAME))
+                    if (Utils.notNullOrEmpty(loanObject, JSON_PARSER_NAME))
                         loan.setName(loanObject.getString(JSON_PARSER_NAME));
-                    if (loanObject.has(JSON_PARSER_CURRENT_AMOUNT))
-                        loan.setCurrentAmount(BigDecimal.valueOf(loanObject.getLong(JSON_PARSER_CURRENT_AMOUNT)));
-                    if (loanObject.has(JSON_PARSER_INITIAL_AMOUNT))
-                        loan.setInitialAmount(BigDecimal.valueOf(loanObject.getLong(JSON_PARSER_INITIAL_AMOUNT)));
-                    if (loanObject.has(JSON_PARSER_INTEREST_RATE))
-                        loan.setInterestRate(BigDecimal.valueOf(loanObject.getDouble(JSON_PARSER_INTEREST_RATE)));
-                    if (loanObject.has(JSON_PARSER_START_DATE))
+                    if (Utils.notNullOrEmpty(loanObject, JSON_PARSER_CURRENT_AMOUNT))
+                        loan.setCurrentAmount(loanObject.getDouble(JSON_PARSER_CURRENT_AMOUNT));
+                    if (Utils.notNullOrEmpty(loanObject, JSON_PARSER_INITIAL_AMOUNT))
+                        loan.setInitialAmount(loanObject.getDouble(JSON_PARSER_INITIAL_AMOUNT));
+                    if (Utils.notNullOrEmpty(loanObject, JSON_PARSER_INTEREST_RATE))
+                        loan.setInterestRate(loanObject.getDouble(JSON_PARSER_INTEREST_RATE));
+                    if (Utils.notNullOrEmpty(loanObject, JSON_PARSER_START_DATE))
                         loan.setStartDate(new Date(loanObject.getLong(JSON_PARSER_START_DATE)));
-                    if (loanObject.has(JSON_PARSER_TERM)) {
+                    if (Utils.notNullOrEmpty(loanObject, JSON_PARSER_TERM)) {
                         Term term = new Term();
                         JSONObject termObject = loanObject.getJSONObject(JSON_PARSER_TERM);
-                        if (termObject.has(JSON_PARSER_LENGTH))
+                        if (Utils.notNullOrEmpty(loanObject, JSON_PARSER_LENGTH))
                             term.setLength(termObject.getInt(JSON_PARSER_LENGTH));
-                        if (termObject.has(JSON_PARSER_TYPE))
+                        if (Utils.notNullOrEmpty(loanObject, JSON_PARSER_TYPE))
                             term.setType(TermType.valueOf(termObject.getString(JSON_PARSER_TYPE)));
-                        if (termObject.has(JSON_PARSER_PAYMENT_AMOUNT))
-                            term.setPaymentAmount(BigDecimal.valueOf(termObject.getDouble(JSON_PARSER_PAYMENT_AMOUNT)));
+                        if (Utils.notNullOrEmpty(loanObject, JSON_PARSER_PAYMENT_AMOUNT))
+                            term.setPaymentAmount(termObject.getDouble(JSON_PARSER_PAYMENT_AMOUNT));
                         loan.setTerm(term);
                     }
                     if (getLoans() == null)

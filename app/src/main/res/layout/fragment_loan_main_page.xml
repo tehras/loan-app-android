@@ -1,15 +1,77 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background">
+
+    <RelativeLayout
+        android:id="@+id/home_page_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/home_page_header_current_container"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/home_page_header_current_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_text_label"
+                android:textColor="@color/tertiary"
+                android:textSize="@dimen/home_page_label_text_height" />
+
+            <TextView
+                android:id="@+id/home_page_header_current_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="$42,200"
+                android:textColor="@color/tertiary"
+                android:textSize="@dimen/home_page_label_text_height"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/home_page_header_current_container"
+            android:id="@+id/home_page_header_previous_container"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/home_page_header_previous_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Original Amount - "
+                android:textColor="@color/tertiary"
+                android:textSize="@dimen/home_page_label_text_height" />
+
+            <TextView
+                android:id="@+id/home_page_header_previous_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="$42,200"
+                android:textColor="@color/tertiary"
+                android:textSize="@dimen/home_page_label_text_height"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/home_page_header_container"
         android:layout_gravity="center"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="@dimen/cardview_default_elevation"
@@ -26,8 +88,7 @@
                 android:id="@+id/home_page_chart_view"
                 layout="@layout/view_line_chart_view"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/home_page_chart_height"
-                />
+                android:layout_height="@dimen/home_page_chart_height" />
 
         </RelativeLayout>
 
@@ -36,21 +97,19 @@
     <include
         layout="@layout/view_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
-    <com.github.clans.fab.FloatingActionButton
-        xmlns:fab="http://schemas.android.com/apk/res-auto"
+    <com.github.clans.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:id="@+id/add_loan_floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
         android:layout_marginBottom="8dp"
         android:layout_marginRight="8dp"
         android:src="@drawable/ic_add_white_24dp"
         fab:fab_colorNormal="@color/primary_button"
         fab:fab_colorPressed="@color/primary_button"
-        fab:fab_colorRipple="@color/primary_button"/>
+        fab:fab_colorRipple="@color/primary_button" />
 </RelativeLayout>

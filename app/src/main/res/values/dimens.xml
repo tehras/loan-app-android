@@ -27,4 +27,5 @@
     <dimen name="field_height">150dp</dimen>
     <dimen name="dialog_header_text_size">24sp</dimen>
     <dimen name="create_loan_text_header">22sp</dimen>
+    <dimen name="home_page_label_text_height">18sp</dimen>
 </resources>
